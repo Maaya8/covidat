@@ -1,0 +1,18 @@
+import requests
+import pandas as pd
+from io import StringIO
+
+#read file
+data_file = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports_us/06-28-2020.csv'
+data = requests.get(data_file)
+
+#read data
+data_str = str(data.content, 'utf-8')
+df = pd.read_csv(StringIO(data_str))
+
+#sum cases
+state = 'washington'
+cases = df.loc[df['Province_State'] == state, 'Confirmed'].sum()
+
+#print total cases
+print(f'Total confirmed cases in {state}: {cases}')
